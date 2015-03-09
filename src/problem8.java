@@ -1,11 +1,8 @@
+import java.math.BigInteger;
 
 public class problem8 {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String seq = "73167176531330624919225119674426574742355349194934"+
 				"96983520312774506326239578318016984801869478851843"+
 				"85861560789112949495459501737958331952853208805511"+
@@ -26,17 +23,17 @@ public class problem8 {
 				"84580156166097919133875499200524063689912560717606"+
 				"05886116467109405077541002256983155200055935729725"+
 				"71636269561882670428252483600823257530420752963450";
-		System.out.println(maxSequenceOfFiveDigits(seq));
+		System.out.println(maxSequenceOf13Digits(seq).toString());
 
 	}
 	
-	public static int maxSequenceOfFiveDigits(String a){
-		int currMax = 0;
-		for (int i = 0; i < a.length() - 4; i++){
-			String sequence = a.substring(i, i+5);
-			int seqSum = maxProductOfFive(sequence.toCharArray());
-			if (seqSum > currMax){
-				currMax = seqSum;
+	public static BigInteger maxSequenceOf13Digits(String a){
+		BigInteger currMax = new BigInteger("0");
+		for (int i = 0; i < a.length() - 12; i++){
+			String sequence    = a.substring(i, i+13);
+			BigInteger seqProd = maxProductOf13(sequence.toCharArray());
+			if (currMax.compareTo(seqProd) < 1){
+				currMax = seqProd;
 			}
 			
 		}
@@ -44,15 +41,13 @@ public class problem8 {
 	
 	}
 	
-	//must have a string input with 5 addresses of single digit characters
-	public static int maxProductOfFive(char[] digits){
-		int sum = 1;
-		for (int i = 0; i <=4; i++){
-			sum *= Integer.parseInt(Character.toString(digits[i]));
+	//must have a string input with 13 addresses of single digit characters
+	public static BigInteger maxProductOf13(char[] digits){
+		BigInteger prod = new BigInteger("1");
+		for (int i = 0; i <=12; i++){
+			prod = prod.multiply(new BigInteger(Character.toString(digits[i])));
 		}
-		return sum;
-		
-		
+		return prod;
 	}
 
 }
