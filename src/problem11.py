@@ -1,4 +1,4 @@
-grid = [	[8, 02, 22, 97, 38, 15, 00, 40, 00, 75, 04, 05, 07, 78, 52, 12, 50, 77 ,91, 8],
+grid = [[8, 02, 22, 97, 38, 15, 00, 40, 00, 75, 04, 05, 07, 78, 52, 12, 50, 77 ,91, 8],
 		[49, 49, 99, 40 ,17 ,81 ,18 ,57, 60 ,87, 17, 40, 98, 43, 69, 48, 04 ,56 ,62 ,00],
 		[81 ,49 ,31 ,73, 55, 79, 14, 29, 93, 71, 40, 67, 53, 88, 30, 03, 49, 13, 36, 65],
 		[52, 70, 95, 23, 04, 60, 11, 42, 69, 24, 68, 56, 01, 32, 56, 71, 37, 02, 36, 91],
@@ -19,6 +19,81 @@ grid = [	[8, 02, 22, 97, 38, 15, 00, 40, 00, 75, 04, 05, 07, 78, 52, 12, 50, 77 
 		[20 ,73, 35 ,29 ,78 ,31, 90, 01, 74, 31, 49, 71, 48, 86, 81, 16, 23, 57, 05, 54],
 		[1, 70 ,54 ,71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 01, 89, 19 ,67, 48]]
 
-print("dff")
-	
+#for each number, check the numbers up, left,down,right,etc
 
+def check_up(x,y):
+	if x < 3:
+		return 0
+	else:
+		return grid[x][y] * grid[x-1][y] * grid[x-2][y] * grid[x-3][y]
+
+def check_down(x,y):
+	if x > (len(grid) - 4):
+		return 0
+	else:
+		return grid[x][y] * grid[x+1][y] * grid[x+2][y] * grid[x+3][y]
+
+def check_right(x,y):
+	if y < 3:
+		return 0
+	else:
+		return grid[x][y] * grid[x][y-1] * grid[x][y-2] * grid[x][y-3]
+
+def check_left(x,y):
+	if y > (len(grid[0]) - 4):
+		return 0
+	else:
+		return grid[x][y] * grid[x][y+1] * grid[x][y+2] * grid[x][y+3]
+
+def check_diag_up_left(x,y):
+	if x < 3 or y < 3:
+		return 0
+	else:
+		return grid[x][y] * grid[x-1][y-1] * grid[x-2][y-2] * grid[x-3][y-3]
+
+def check_diag_down_left(x,y):
+	if x > len(grid) - 4 or y < 3:
+		return 0
+	else:
+		return grid[x][y] * grid[x+1][y-1] * grid[x+2][y-2] * grid[x+3][y-3]
+
+def check_diag_down_right(x,y):
+	if x > (len(grid) - 4) or y > (len(grid[0]) -4):
+		return 0
+	else:
+		return grid[x][y] * grid[x+1][y+1] * grid[x+2][y+2] * grid[x+3][y+3]
+
+def check_diag_up_right(x,y):
+	if x < 3 or y > (len(grid[0]) -4):
+		return 0
+	else:
+		return grid[x][y] * grid[x-1][y+1] * grid[x-2][y+2] * grid[x-3][y+3]
+
+
+def check_prods(x,y):
+	scores = []
+	scores.append(check_up(x,y))
+	scores.append(check_down(x,y))
+	scores.append(check_left(x,y))
+	scores.append(check_right(x,y))
+	scores.append(check_diag_up_left(x,y))
+	scores.append(check_diag_down_left(x,y))
+	scores.append(check_diag_up_right(x,y))
+	scores.append(check_diag_down_right(x,y))
+	return max(scores)		
+
+def run():
+	highest = 0
+
+	for x in range(0, len(grid)-1):
+
+		for y in range(0, len(grid[0])-1):
+			
+			curr = check_prods(x,y)
+			if curr > highest:
+				highest = curr
+
+	print 'max:%s' % highest
+			
+if __name__ == '__main__':
+	run()
